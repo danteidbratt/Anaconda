@@ -8,13 +8,21 @@ public class Snake {
     List<SnakePart> snakeParts;
     
 
-    public Snake(int gridSize) {
-        this.sc = ((gridSize) / 2) + 1;
+    public Snake(int gridSize, int playerNumber) {
         snakeParts = new ArrayList<>();
-        
-        snakeParts = Arrays.asList(new Head(sc, sc, 1, 0),
-                                   new Body(sc, sc+1), 
-                                   new Body(sc, sc+2), 
-                                   new Body(sc, sc+3));
+        if (playerNumber == 1) {
+            this.sc = ((gridSize) / 4) + 1;
+            snakeParts = Arrays.asList(new Head(sc, sc, 1, 0),
+                                       new Body(sc, sc+1), 
+                                       new Body(sc, sc+2), 
+                                       new Body(sc, sc+3));
+        }
+        if (playerNumber == 2) {
+            this.sc = ((gridSize) / 4) * 3 + 1;
+            snakeParts = Arrays.asList(new Head(sc, sc, -1, 0),
+                                       new Body(sc, sc-1), 
+                                       new Body(sc, sc-2), 
+                                       new Body(sc, sc-3));
+        }
     }
 }

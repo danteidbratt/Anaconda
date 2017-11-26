@@ -27,7 +27,7 @@ public class Game extends JPanel implements Runnable {
         this.gridSize = gridSize;
         this.backgroundColor = backgroundColor;
         snakeColor = Color.RED;
-        snake = new Snake(gridSize);
+        snake = new Snake(gridSize, 1);
     }
 
     public void setPanel() {
@@ -81,9 +81,8 @@ public class Game extends JPanel implements Runnable {
     public void run() {
         java.util.List<Step> snakeNextFrame = new ArrayList<>();
         while (true) {
-            System.out.println("???");
             try {
-                Thread.sleep(200);
+                Thread.sleep(50);
             } catch (InterruptedException ex) {
                 System.out.println(ex.getMessage());
             }
