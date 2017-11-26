@@ -4,25 +4,27 @@ import java.util.*;
 
 public class Snake {
     
-    int sc;
+    int startCoordinate;
+    int playerNumber;
     List<SnakePart> snakeParts;
     
 
     public Snake(int gridSize, int playerNumber) {
         snakeParts = new ArrayList<>();
+        this.playerNumber = playerNumber;
         if (playerNumber == 1) {
-            this.sc = ((gridSize) / 4) + 1;
-            snakeParts = Arrays.asList(new Head(sc, sc, 1, 0),
-                                       new Body(sc, sc+1), 
-                                       new Body(sc, sc+2), 
-                                       new Body(sc, sc+3));
+            this.startCoordinate = ((gridSize) / 4) + 1;
+            snakeParts = Arrays.asList(new Head(startCoordinate, startCoordinate, 1, 0),
+                                       new Body(startCoordinate, startCoordinate+1), 
+                                       new Body(startCoordinate, startCoordinate+2), 
+                                       new Body(startCoordinate, startCoordinate+3));
         }
         if (playerNumber == 2) {
-            this.sc = ((gridSize) / 4) * 3 + 1;
-            snakeParts = Arrays.asList(new Head(sc, sc, -1, 0),
-                                       new Body(sc, sc-1), 
-                                       new Body(sc, sc-2), 
-                                       new Body(sc, sc-3));
+            this.startCoordinate = ((gridSize) / 5) * 4;
+            snakeParts = Arrays.asList(new Head(startCoordinate, startCoordinate, -1, 0),
+                                       new Body(startCoordinate, startCoordinate-1), 
+                                       new Body(startCoordinate, startCoordinate-2), 
+                                       new Body(startCoordinate, startCoordinate-3));
         }
     }
 }

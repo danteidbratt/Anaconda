@@ -20,7 +20,8 @@ public class ActionHandler implements ActionListener{
             a.frame.add(a.game);
             a.frame.addKeyListener(ka);
             a.frame.requestFocus();
-            a.game.activity.start();
+            a.game.st1.start();
+            a.game.st2.start();
         }
         
         if (e.getSource() == a.menu.exitButton) {
@@ -35,16 +36,28 @@ public class ActionHandler implements ActionListener{
         public void keyPressed(KeyEvent x) {
             switch (x.getKeyChar()) {
                 case 'w':
-                    a.game.snake.snakeParts.get(0).setDirection(-1, 0);
+                    a.game.p1.snakeParts.get(0).setDirection(-1, 0);
                     break;
                 case 's':
-                    a.game.snake.snakeParts.get(0).setDirection(1, 0);
+                    a.game.p1.snakeParts.get(0).setDirection(1, 0);
                     break;
                 case 'a':
-                    a.game.snake.snakeParts.get(0).setDirection(0, -1);
+                    a.game.p1.snakeParts.get(0).setDirection(0, -1);
                     break;
                 case 'd':
-                    a.game.snake.snakeParts.get(0).setDirection(0, 1);
+                    a.game.p1.snakeParts.get(0).setDirection(0, 1);
+                    break;
+                case 'p':
+                    a.game.p2.snakeParts.get(0).setDirection(-1, 0);
+                    break;
+                case 'ö':
+                    a.game.p2.snakeParts.get(0).setDirection(1, 0);
+                    break;
+                case 'l':
+                    a.game.p2.snakeParts.get(0).setDirection(0, -1);
+                    break;
+                case 'ä':
+                    a.game.p2.snakeParts.get(0).setDirection(0, 1);
                     break;
                 default:
                     break;
