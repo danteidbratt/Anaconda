@@ -96,7 +96,7 @@ public class Game extends JPanel{
             boolean alive = true;
             while (alive) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch (InterruptedException ex) {
                     System.out.println(ex.getMessage());
                 }
@@ -126,13 +126,15 @@ public class Game extends JPanel{
                         alive = false;
                 }
                 
-                if(hero.snakeParts.get(0).x < 1 || hero.snakeParts.get(0).x > gridSize-2 ||
-                   hero.snakeParts.get(0).y < 1 || hero.snakeParts.get(0).y > gridSize-2)
+                if(hero.snakeParts.get(0).x < 1 || hero.snakeParts.get(0).x > gridSize ||
+                   hero.snakeParts.get(0).y < 1 || hero.snakeParts.get(0).y > gridSize)
                     alive = false;
             }
             System.out.println("död");
             for (int i = 1; i < hero.snakeParts.size(); i++) {
                 grid[hero.snakeParts.get(i).y][hero.snakeParts.get(i).x].setBackground(backgroundColor);
+                hero.snakeParts.get(i).x = 0;
+                hero.snakeParts.get(i).y = 0;
             }
         }
     }
