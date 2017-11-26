@@ -2,6 +2,8 @@ package anaconda;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ActionHandler implements ActionListener{
 
@@ -16,6 +18,9 @@ public class ActionHandler implements ActionListener{
             a.game.setPanel();
             a.frame.remove(a.menu);
             a.frame.add(a.game);
+            a.frame.addKeyListener(ka);
+            a.frame.requestFocus();
+            a.game.activity.start();
         }
         
         if (e.getSource() == a.menu.exitButton) {
@@ -24,4 +29,26 @@ public class ActionHandler implements ActionListener{
         a.frame.revalidate();
         a.frame.repaint();
     }
+    
+    KeyAdapter ka = new KeyAdapter() {
+        @Override
+        public void keyPressed(KeyEvent x) {
+            switch (x.getKeyChar()) {
+                case 'w':
+                    a.game.snake.snakeParts.get(0).setDirection(-1, 0);
+                    break;
+                case 's':
+                    a.game.snake.snakeParts.get(0).setDirection(1, 0);
+                    break;
+                case 'a':
+                    a.game.snake.snakeParts.get(0).setDirection(0, -1);
+                    break;
+                case 'd':
+                    a.game.snake.snakeParts.get(0).setDirection(0, 1);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }

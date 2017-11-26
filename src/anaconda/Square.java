@@ -4,11 +4,8 @@ import javax.swing.*;
 
 public class Square extends JLabel{
     
-    boolean up;
-    boolean down;
-    boolean left;
-    boolean right;
     boolean occupied;
+    String direction = "";
 
     public Square() {
         occupied = false;
