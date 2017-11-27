@@ -4,13 +4,16 @@ import java.util.*;
 import java.awt.*;
 import javax.swing.*;
 
-public class Game extends JPanel{
+public class Game extends JPanel {
 
     Snake p1;
     Snake p2;
     SnakeThread st1;
     SnakeThread st2;
     Snake[] snakes = new Snake[2];
+    Food food1;
+    Food food2;
+    int fps;
 
     JPanel field = new JPanel();
     Square[][] grid;
@@ -25,10 +28,11 @@ public class Game extends JPanel{
     Color backgroundColor;
     Color snakeColor;
 
-    public Game(int gridSize, Color backgroundColor) {
+    public Game(int gridSize, Color backgroundColor, int fps) {
         grid = new Square[gridSize + 2][gridSize + 2];
         this.gridSize = gridSize;
         this.backgroundColor = backgroundColor;
+        this.fps = fps;
         snakeColor = Color.RED;
         p1 = new Snake(gridSize, 1);
         p2 = new Snake(gridSize, 2);
@@ -36,6 +40,7 @@ public class Game extends JPanel{
         snakes[1] = p2;
         st1 = new SnakeThread(p1);
         st2 = new SnakeThread(p2);
+        food1 = new Food(gridSize);
     }
 
     public void setPanel() {
@@ -60,13 +65,18 @@ public class Game extends JPanel{
             }
         }
 
+        // Placera ut första ormen
         for (int i = 0; i < p1.snakeParts.size(); i++) {
-            grid[p1.snakeParts.get(i).y][p1.snakeParts.get(i).x].setBackground(snakeColor);
+            grid[p1.snakeParts.get(i).y][p1.snakeParts.get(i).x].setBackground(p1.color);
         }
 
+        // Placera ut andra ormen
         for (int i = 0; i < p2.snakeParts.size(); i++) {
-            grid[p2.snakeParts.get(i).y][p2.snakeParts.get(i).x].setBackground(snakeColor);
+            grid[p2.snakeParts.get(i).y][p2.snakeParts.get(i).x].setBackground(p2.color);
         }
+
+        // Placera ut maten
+        grid[food1.y][food1.x].setBackground(food1.color);
 
         for (JLabel space : spaces) {
             space.setBackground(backgroundColor);
@@ -82,53 +92,59 @@ public class Game extends JPanel{
     }
 
     public class SnakeThread extends Thread {
-        
+
         Snake hero;
         Snake enemy;
-        
+
         public SnakeThread(Snake snake) {
             this.hero = snake;
         }
-        
+
         @Override
         public void run() {
             java.util.List<Step> snakeNextFrame = new ArrayList<>();
             boolean alive = true;
             while (alive) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1000 / fps);
                 } catch (InterruptedException ex) {
                     System.out.println(ex.getMessage());
                 }
-                
+
+                // Ät mat
+                if (checkIfEqual(hero.snakeParts.get(0), food1)) {
+                    spawnFood();
+                    grow(hero);
+                }
+
                 // Flytta kroppen
                 for (int i = hero.snakeParts.size() - 1; i > 0; i--) {
                     grid[hero.snakeParts.get(i).y][hero.snakeParts.get(i).x].setBackground(backgroundColor);
                     hero.snakeParts.get(i).moveBody(hero.snakeParts.get(i - 1));
                 }
-                
+
                 // Flytta huvudet
                 hero.snakeParts.get(0).moveHead();
-                
+                teleport(hero.snakeParts.get(0));
+
                 // Uppdatera positionen
                 for (int i = 0; i < hero.snakeParts.size(); i++) {
-                    grid[hero.snakeParts.get(i).y][hero.snakeParts.get(i).x].setBackground(snakeColor);
+                    grid[hero.snakeParts.get(i).y][hero.snakeParts.get(i).x].setBackground(hero.color);
                 }
-                
-                if(hero.playerNumber == 1)
+
+                if (hero.playerNumber == 1) {
                     enemy = p2;
-                else
+                } else {
                     enemy = p1;
-                
-                for (int i = 1; i < enemy.snakeParts.size(); i++) {
-                    if (hero.snakeParts.get(0).x == enemy.snakeParts.get(i).x &&
-                        hero.snakeParts.get(0).y == enemy.snakeParts.get(i).y)
-                        alive = false;
                 }
-                
-                if(hero.snakeParts.get(0).x < 1 || hero.snakeParts.get(0).x > gridSize ||
-                   hero.snakeParts.get(0).y < 1 || hero.snakeParts.get(0).y > gridSize)
-                    alive = false;
+
+                for (int i = 1; i < enemy.snakeParts.size(); i++) {
+                    if (hero.snakeParts.get(0).x == enemy.snakeParts.get(i).x
+                            && hero.snakeParts.get(0).y == enemy.snakeParts.get(i).y) {
+                        alive = false;
+                    }
+                }
+
             }
             System.out.println("död");
             for (int i = 1; i < hero.snakeParts.size(); i++) {
@@ -137,5 +153,57 @@ public class Game extends JPanel{
                 hero.snakeParts.get(i).y = 0;
             }
         }
+    }
+
+    public void spawnFood() {
+        Random random = new Random();
+        int randY;
+        int randX;
+        do {
+            randY = random.nextInt(gridSize - 2) + 1;
+            randX = random.nextInt(gridSize - 2) + 1;
+        } while (!checkIfEmpty(randY, randX));
+        food1.y = randY;
+        food1.x = randX;
+        grid[food1.y][food1.x].setBackground(food1.color);
+    }
+
+    public boolean checkIfEmpty(int y, int x) {
+        for (int i = 0; i < snakes.length; i++) {
+            for (int j = 0; j < snakes[i].snakeParts.size(); j++) {
+                if (snakes[i].snakeParts.get(j).x == x && snakes[i].snakeParts.get(j).y == y) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean checkIfEqual(SnakePart snakePart, Food food) {
+        return (snakePart.x == food.x && snakePart.y == food.y);
+    }
+
+    public void teleport(SnakePart head) {
+        if (head.x == 0) {
+            head.x = gridSize;
+        }
+        if (head.x == gridSize + 1) {
+            head.x = 1;
+        }
+        if (head.y == 0) {
+            head.y = gridSize;
+        }
+        if (head.y == gridSize + 1) {
+            head.y = 1;
+        }
+    }
+    
+    public void grow(Snake snake){
+        int v;
+        int h;
+        int index = snake.snakeParts.size()-1;
+        Body body = new Body(snake.snakeParts.get(snake.snakeParts.size()-1).y,
+                             snake.snakeParts.get(snake.snakeParts.size()-1).x);
+        snake.snakeParts.add(body);
     }
 }

@@ -14,7 +14,7 @@ public class Anaconda {
         backgroundColor = Color.DARK_GRAY;
         frame = new Frame();
         menu = new Menu(backgroundColor);
-        game = new Game(15, backgroundColor);
+        game = new Game(11, backgroundColor, 5);
         actionHandler = new ActionHandler(this);
     }
 
