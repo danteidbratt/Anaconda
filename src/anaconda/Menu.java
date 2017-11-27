@@ -26,7 +26,7 @@ public class Menu extends JPanel{
     JLabel rightSpace = new JLabel(" ");
     JLabel[] spaces = {topSpace, botSpace, leftSpace, rightSpace};
     Color backgroundColor;
-    Color logoColor = Color.RED;
+    Color logoColor = new Color(255, 90, 0);
 
     public Menu(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
