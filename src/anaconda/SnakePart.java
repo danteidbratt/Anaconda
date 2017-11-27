@@ -7,7 +7,6 @@ abstract public class SnakePart {
     int x;
     int v;
     int h;
-    String d;
 
     public SnakePart(int y, int x, int v, int h) {
         this.y = y;

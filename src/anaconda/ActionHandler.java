@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 
 public class ActionHandler implements ActionListener{
 
+    char forbidden;
     Anaconda a;
     public ActionHandler(Anaconda a) {
         this.a = a;
@@ -33,31 +34,55 @@ public class ActionHandler implements ActionListener{
     
     KeyAdapter ka = new KeyAdapter() {
         @Override
-        public void keyPressed(KeyEvent x) {
+        public void keyTyped(KeyEvent x) {
             switch (x.getKeyChar()) {
                 case 'w':
-                    a.game.p1.snakeParts.get(0).setDirection(-1, 0);
+                    if(forbidden != 'w'){
+                        a.game.p1.snakeParts.get(0).setDirection(-1, 0);
+                        forbidden = 'w';
+                    }
                     break;
                 case 's':
-                    a.game.p1.snakeParts.get(0).setDirection(1, 0);
+                    if(forbidden != 's'){
+                        a.game.p1.snakeParts.get(0).setDirection(1, 0);
+                        forbidden = 's';
+                    }
                     break;
                 case 'a':
+                    if(forbidden != 'a'){
                     a.game.p1.snakeParts.get(0).setDirection(0, -1);
+                    forbidden = 'a';
+                    }
                     break;
                 case 'd':
+                    if(forbidden != 'd'){
                     a.game.p1.snakeParts.get(0).setDirection(0, 1);
+                    forbidden = 'd';
+                    }
                     break;
                 case 'p':
+                    if(forbidden != 'p'){
                     a.game.p2.snakeParts.get(0).setDirection(-1, 0);
+                    forbidden = 'p';
+                    }
                     break;
                 case 'ö':
+                    if(forbidden != 'ö'){
                     a.game.p2.snakeParts.get(0).setDirection(1, 0);
+                    forbidden = 'ö';
+                    }
                     break;
                 case 'l':
+                    if(forbidden != 'l'){
                     a.game.p2.snakeParts.get(0).setDirection(0, -1);
+                    forbidden = 'l';
+                    }
                     break;
                 case 'ä':
+                    if(forbidden != 'ä'){
                     a.game.p2.snakeParts.get(0).setDirection(0, 1);
+                    forbidden = 'ä';
+                    }
                     break;
                 default:
                     break;
