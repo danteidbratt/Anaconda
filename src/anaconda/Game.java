@@ -94,7 +94,7 @@ public class Game extends JPanel {
     }
 
     public class SnakeThread extends Thread {
-
+        
         Snake hero;
         Snake enemy;
 
@@ -125,7 +125,7 @@ public class Game extends JPanel {
 
                 // Flytta kroppen
                 for (int i = hero.snakeParts.size() - 1; i > 0; i--) {
-                    grid[hero.snakeParts.get(i).y][hero.snakeParts.get(i).x].setBackground(backgroundColor);
+                    grid[hero.snakeParts.get(hero.snakeParts.size()-1).y][hero.snakeParts.get(hero.snakeParts.size()-1).x].setBackground(backgroundColor);
                     hero.snakeParts.get(i).moveBody(hero.snakeParts.get(i - 1));
                 }
 
@@ -142,6 +142,12 @@ public class Game extends JPanel {
                     enemy = p2;
                 } else {
                     enemy = p1;
+                }
+                
+                for (int j = 0; j < snakes.length; j++) {
+                    for (int i = 0; i < snakes[j].snakeParts.size(); i++) {
+                        grid[snakes[j].snakeParts.get(i).y][snakes[j].snakeParts.get(i).x].setBackground(snakes[j].color);
+                    }
                 }
 
                 for (int i = 1; i < enemy.snakeParts.size(); i++) {

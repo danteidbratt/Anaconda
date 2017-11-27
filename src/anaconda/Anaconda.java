@@ -16,9 +16,9 @@ public class Anaconda {
 
     public Anaconda() {
         // Settings
-        backgroundColor = Color.DARK_GRAY;
+        backgroundColor = new Color(50, 50, 50);
         gridSize = 15;
-        fps = 10;
+        fps = 3;
         
         frame = new Frame();
         menu = new Menu(backgroundColor);
