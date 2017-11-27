@@ -104,7 +104,6 @@ public class Game extends JPanel {
 
         @Override
         public void run() {
-            java.util.List<Step> snakeNextFrame = new ArrayList<>();
             boolean alive = true;
             while (alive) {
                 try {
