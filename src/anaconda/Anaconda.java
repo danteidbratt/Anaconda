@@ -4,17 +4,25 @@ import java.awt.Color;
 
 public class Anaconda {
     
-    Color backgroundColor;
     Frame frame;
     Menu menu;
     Game game;
     ActionHandler actionHandler;
+    
+    int gridSize;
+    Color backgroundColor;
+    int fps;
+    
 
     public Anaconda() {
+        // Settings
         backgroundColor = Color.DARK_GRAY;
+        gridSize = 15;
+        fps = 10;
+        
         frame = new Frame();
         menu = new Menu(backgroundColor);
-        game = new Game(11, backgroundColor, 5);
+        game = new Game(gridSize, backgroundColor, fps);
         actionHandler = new ActionHandler(this);
     }
 

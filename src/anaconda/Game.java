@@ -40,7 +40,8 @@ public class Game extends JPanel {
         snakes[1] = p2;
         st1 = new SnakeThread(p1);
         st2 = new SnakeThread(p2);
-        food1 = new Food(gridSize);
+        food1 = new Food((gridSize / 4) + 1, (gridSize / 5) * 4 + 1);
+        food2 = new Food((gridSize / 5) * 4 + 1, (gridSize / 4) + 1);
     }
 
     public void setPanel() {
@@ -77,6 +78,7 @@ public class Game extends JPanel {
 
         // Placera ut maten
         grid[food1.y][food1.x].setBackground(food1.color);
+        grid[food2.y][food2.x].setBackground(food2.color);
 
         for (JLabel space : spaces) {
             space.setBackground(backgroundColor);
@@ -113,7 +115,11 @@ public class Game extends JPanel {
 
                 // Ät mat
                 if (checkIfEqual(hero.snakeParts.get(0), food1)) {
-                    spawnFood();
+                    spawnFood(food1);
+                    grow(hero);
+                }
+                if (checkIfEqual(hero.snakeParts.get(0), food2)) {
+                    spawnFood(food2);
                     grow(hero);
                 }
 
@@ -155,17 +161,17 @@ public class Game extends JPanel {
         }
     }
 
-    public void spawnFood() {
+    public void spawnFood(Food food) {
         Random random = new Random();
         int randY;
         int randX;
         do {
-            randY = random.nextInt(gridSize - 2) + 1;
-            randX = random.nextInt(gridSize - 2) + 1;
+            randY = random.nextInt(gridSize) + 1;
+            randX = random.nextInt(gridSize) + 1;
         } while (!checkIfEmpty(randY, randX));
-        food1.y = randY;
-        food1.x = randX;
-        grid[food1.y][food1.x].setBackground(food1.color);
+        food.y = randY;
+        food.x = randX;
+        grid[food.y][food.x].setBackground(food1.color);
     }
 
     public boolean checkIfEmpty(int y, int x) {
@@ -176,7 +182,7 @@ public class Game extends JPanel {
                 }
             }
         }
-        return true;
+        return (food1.y != y && food1.x != x && food2.x != x && food2.y != y);
     }
 
     public boolean checkIfEqual(SnakePart snakePart, Food food) {

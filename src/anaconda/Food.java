@@ -8,9 +8,9 @@ public class Food {
     int x;
     Color color;
 
-    public Food(int gridSize) {
-        y = gridSize / 2 +1;
-        x = gridSize / 2 +1;
+    public Food(int y, int x) {
+        this.y = y;
+        this.x = x;
         color = Color.GREEN;
     }
 }
